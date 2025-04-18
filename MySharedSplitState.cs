@@ -22,13 +22,20 @@ public class MySharedSplitState
             PoolSize = 1
         };
 
-        var config = new ConfigurationOptions
-        {
-            Mode = Mode.Consumer,
-            CacheAdapterConfig = cacheAdapterConfigurationOptions
-        };
+        // var config = new ConfigurationOptions
+        // {
+        //     Mode = Mode.Consumer,
+        //     CacheAdapterConfig = cacheAdapterConfigurationOptions
+        // };
+        var config = new ConfigurationOptions();
 
-        var factory = new SplitFactory("28bddhnjht06lvi8e5aa9rkmv5glsc40ltaa", config);
+        string token = Environment.GetEnvironmentVariable("HARNESS_API_TOKEN");
+
+        if (string.IsNullOrEmpty(token))
+        {
+            Console.WriteLine("API Token environment variable HARNESS_API_TOKEN is not set.");
+        }        
+        var factory = new SplitFactory(token, config);
         _sdk = factory.Client();
     }
 
